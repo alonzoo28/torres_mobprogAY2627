@@ -10,6 +10,7 @@ class NewsFeedCard extends StatefulWidget {
   final int numOfLikes;
   final String date;
   final bool hasImage;
+  final String? userAvatar;
 
   const NewsFeedCard({
     super.key,
@@ -18,6 +19,7 @@ class NewsFeedCard extends StatefulWidget {
     required this.numOfLikes,
     required this.date,
     this.hasImage = false,
+    this.userAvatar,
   });
 
   @override
@@ -53,10 +55,12 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               children: [
                 CircleAvatar(
                   backgroundColor: FB_LIGHT_PRIMARY,
-                  child: Icon(
-                    Icons.person,
-                    color: FB_DARK_PRIMARY,
-                  ),
+                  backgroundImage: widget.userAvatar != null
+                      ? AssetImage(widget.userAvatar!)
+                      : null,
+                  child: widget.userAvatar == null
+                      ? Icon(Icons.person, color: FB_DARK_PRIMARY)
+                      : null,
                 ),
                 SizedBox(width: 10.w),
                 Expanded(
@@ -82,15 +86,12 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                 Icon(Icons.more_horiz),
               ],
             ),
-
             SizedBox(height: 12.h),
-
             CustomText(
               text: widget.postContent,
               fontSize: 14.sp,
               color: Colors.black,
             ),
-
             if (widget.hasImage) ...[
               SizedBox(height: 12.h),
               Container(
@@ -107,9 +108,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                 ),
               ),
             ],
-
             SizedBox(height: 12.h),
-
             Row(
               children: [
                 Icon(
@@ -121,9 +120,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                 Text('$likes'),
               ],
             ),
-
             Divider(),
-
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
@@ -138,9 +135,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                     isLiked
                         ? Icons.thumb_up
                         : Icons.thumb_up_outlined,
-                    color: isLiked
-                        ? FB_PRIMARY
-                        : Colors.grey,
+                    color: isLiked ? FB_PRIMARY : Colors.grey,
                   ),
                   label: Text('Like'),
                 ),
@@ -162,7 +157,6 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                 ),
               ],
             ),
-
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 12.w,
@@ -174,10 +168,7 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               ),
               child: Row(
                 children: [
-                  Icon(
-                    Icons.person,
-                    color: Colors.grey,
-                  ),
+                  Icon(Icons.person, color: Colors.grey),
                   SizedBox(width: 10.w),
                   Text(
                     'Write a comment...',
@@ -186,7 +177,6 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
                 ],
               ),
             ),
-
             SizedBox(height: 8.h),
             Text(
               'View comments',
