@@ -1,0 +1,29 @@
+
+import 'package:flutter/material.dart';
+
+class PostActionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final Color iconColor;
+  final VoidCallback onPressed;
+
+  const PostActionButton({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.iconColor,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton.icon(
+      onPressed: onPressed,
+      icon: Icon(
+        icon,
+        color: iconColor,
+      ),
+      label: Text(label),
+    );
+  }
+}

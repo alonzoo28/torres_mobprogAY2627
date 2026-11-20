@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../constants.dart';
 import 'custom_text.dart';
+import 'post_action_button.dart';
 
 class NewsFeedCard extends StatefulWidget {
   final String userName;
@@ -11,6 +12,7 @@ class NewsFeedCard extends StatefulWidget {
   final String date;
   final bool hasImage;
   final String? userAvatar;
+  final String? postImage;
 
   const NewsFeedCard({
     super.key,
@@ -20,6 +22,8 @@ class NewsFeedCard extends StatefulWidget {
     required this.date,
     this.hasImage = false,
     this.userAvatar,
+    this.postImage,
+
   });
 
   @override
@@ -92,22 +96,20 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               fontSize: 14.sp,
               color: Colors.black,
             ),
-            if (widget.hasImage) ...[
+
+            if (widget.hasImage && widget.postImage != null) ...[
               SizedBox(height: 12.h),
-              Container(
-                height: 200.h,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(8.r),
-                ),
-                child: Icon(
-                  Icons.image_outlined,
-                  size: 60.sp,
-                  color: Colors.grey,
+              ClipRRect(
+                borderRadius: BorderRadius.circular(8.r),
+                child: Image.asset(
+                  widget.postImage!,
+                  width: double.infinity,
+                  height: 200.h,
+                  fit: BoxFit.cover,
                 ),
               ),
             ],
+
             SizedBox(height: 12.h),
             Row(
               children: [
@@ -121,42 +123,43 @@ class _NewsFeedCardState extends State<NewsFeedCard> {
               ],
             ),
             Divider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                TextButton.icon(
-                  onPressed: () {
-                    setState(() {
-                      isLiked = !isLiked;
-                      likes += isLiked ? 1 : -1;
-                    });
-                  },
-                  icon: Icon(
-                    isLiked
-                        ? Icons.thumb_up
-                        : Icons.thumb_up_outlined,
-                    color: isLiked ? FB_PRIMARY : Colors.grey,
-                  ),
-                  label: Text('Like'),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.comment_outlined,
-                    color: Colors.grey,
-                  ),
-                  label: Text('Comment'),
-                ),
-                TextButton.icon(
-                  onPressed: () {},
-                  icon: Icon(
-                    Icons.share_outlined,
-                    color: Colors.grey,
-                  ),
-                  label: Text('Share'),
-                ),
-              ],
-            ),
+           Row(
+  mainAxisAlignment: MainAxisAlignment.spaceAround,
+  children: [
+    // LIKE BUTTON WIDGET
+    PostActionButton(
+      icon: isLiked
+          ? Icons.thumb_up
+          : Icons.thumb_up_outlined,
+      label: 'Like',
+      iconColor: isLiked ? FB_PRIMARY : Colors.grey,
+      onPressed: () {
+        setState(() {
+          isLiked = !isLiked;
+          likes += isLiked ? 1 : -1;
+        });
+      },
+    ),
+
+    // COMMENT BUTTON WIDGET
+    PostActionButton(
+      icon: Icons.comment_outlined,
+      label: 'Comment',
+      iconColor: Colors.grey,
+      onPressed: () {},
+    ),
+
+    // SHARE BUTTON
+    TextButton.icon(
+      onPressed: () {},
+      icon: Icon(
+        Icons.share_outlined,
+        color: Colors.grey,
+      ),
+      label: Text('Share'),
+    ),
+  ],
+),
             Container(
               padding: EdgeInsets.symmetric(
                 horizontal: 12.w,

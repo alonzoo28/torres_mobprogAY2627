@@ -19,11 +19,12 @@ class NewsFeedScreen extends StatelessWidget {
         NewsFeedCard(
           userName: 'Shaquille O Neal',
           postContent:
-              'Shout out Elijah Danay 1v1 Tayo, papawis lang!',
+              'Shout out Elijah Dacanay 1v1 Tayo, papawis lang!',
           numOfLikes: 1000,
           hasImage: true,
           date: '3 hrs ago',
           userAvatar: 'assets/images/shaq.webp',
+          postImage: 'assets/images/shaq1.webp',
         ),
       ],
     );
